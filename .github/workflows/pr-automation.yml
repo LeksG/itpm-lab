@@ -13,7 +13,7 @@ jobs:
         uses: peter-evans/create-or-update-project-card@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          project-url: 'https://github.com/<LeksG>/<itpm-lab>/projects/<3>'
+          project-url: 'https://github.com/LeksG/itpm-lab/projects/3'
           column-name: 'Review'
           card-content-type: 'pull_request'
           card-id: ${{ github.event.pull_request.node_id }}
@@ -23,7 +23,7 @@ jobs:
         uses: peter-evans/create-or-update-project-card@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          project-url: 'https://github.com/<LeksG>/<itpm-lab>/projects/<3>'
+          project-url: 'https://github.com/LeksG/itpm-lab/projects/3'
           column-name: 'Done'
           card-content-type: 'pull_request'
           card-id: ${{ github.event.pull_request.node_id }}
