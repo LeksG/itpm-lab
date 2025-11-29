@@ -8,7 +8,8 @@ jobs:
   move_cards:
     runs-on: ubuntu-latest
     steps:
-      - name: Move project card on PR opened
+      # Крок 1: Створюємо картку PR і ставимо у Review
+      - name: Create or move project card to Review
         if: github.event.action == 'opened'
         uses: peter-evans/create-or-update-project-card@v2
         with:
@@ -16,9 +17,10 @@ jobs:
           project-url: 'https://github.com/LeksG/itpm-lab/projects/3'
           column-name: 'Review'
           card-content-type: 'pull_request'
-          card-id: ${{ github.event.pull_request.node_id }}
+          content-id: ${{ github.event.pull_request.node_id }}
 
-      - name: Move project card on PR merged
+      # Крок 2: Переміщаємо картку PR у Done після merge
+      - name: Move project card to Done
         if: github.event.action == 'closed' && github.event.pull_request.merged == true
         uses: peter-evans/create-or-update-project-card@v2
         with:
@@ -26,4 +28,4 @@ jobs:
           project-url: 'https://github.com/LeksG/itpm-lab/projects/3'
           column-name: 'Done'
           card-content-type: 'pull_request'
-          card-id: ${{ github.event.pull_request.node_id }}
+          content-id: ${{ github.event.pull_request.node_id }}
