@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Move project card on PR opened
         if: github.event.action == 'opened'
-        uses: peter-evans/project-card@v1
+        uses: peter-evans/create-or-update-project-card@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           project-url: 'https://github.com/<LeksG>/<itpm-lab>/projects/<3>'
@@ -20,7 +20,7 @@ jobs:
 
       - name: Move project card on PR merged
         if: github.event.action == 'closed' && github.event.pull_request.merged == true
-        uses: peter-evans/project-card@v1
+        uses: peter-evans/create-or-update-project-card@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           project-url: 'https://github.com/<user>/<repo>/projects/<project-id>'
