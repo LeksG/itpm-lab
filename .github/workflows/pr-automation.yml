@@ -1,0 +1,29 @@
+name: Project Automation
+
+on:
+  pull_request:
+    types: [opened, closed]
+
+jobs:
+  move_cards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move project card on PR opened
+        if: github.event.action == 'opened'
+        uses: peter-evans/project-card@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: 'https://github.com/<LeksG>/<itpm-lab>/projects/<3>'
+          column-name: 'Review'
+          card-content-type: 'pull_request'
+          card-id: ${{ github.event.pull_request.node_id }}
+
+      - name: Move project card on PR merged
+        if: github.event.action == 'closed' && github.event.pull_request.merged == true
+        uses: peter-evans/project-card@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: 'https://github.com/<user>/<repo>/projects/<project-id>'
+          column-name: 'Done'
+          card-content-type: 'pull_request'
+          card-id: ${{ github.event.pull_request.node_id }}
