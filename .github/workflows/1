@@ -1,0 +1,49 @@
+name: Add PR to Project
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add_to_project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add PR to GitHub Project
+        uses: actions/add-to-project@v0.6.0
+        with:
+          project-url: https://github.com/orgs/ВАША-ОРГ/projects/номер
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update fields via API
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const projectId = "Ваш project node_id";
+            const itemId = context.payload.pull_request.node_id;
+
+            await github.graphql(`
+              mutation {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: "${projectId}",
+                    itemId: "${itemId}",
+                    fieldId: "ID_TYPE",
+                    value: { singleSelectOptionId: "Feature" }
+                  }
+                ) { clientMutationId }
+              }
+            `);
+
+            await github.graphql(`
+              mutation {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: "${projectId}",
+                    itemId: "${itemId}",
+                    fieldId: "ID_STATUS",
+                    value: { singleSelectOptionId: "In Progress" }
+                  }
+                ) { clientMutationId }
+              }
+            `);
